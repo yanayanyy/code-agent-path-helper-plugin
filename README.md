@@ -28,6 +28,54 @@
 
 <kbd>Settings</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>
 
+## Hammerspoon 联动（可选）
+
+配合 [Hammerspoon](https://www.hammerspoon.org/) 可实现：在 IDEA 中按一个快捷键，自动复制路径并输入到 Warp 终端，无需手动粘贴。
+
+### 配置步骤
+
+1. 安装 Hammerspoon：`brew install hammerspoon`
+2. 编辑 `~/.hammerspoon/init.lua`，添加以下内容：
+
+```lua
+-- 定义你的超键（hyper），例如 Ctrl+Option+Cmd
+local hyper = {"ctrl", "alt", "cmd"}
+-- 修改为你使用的终端名称：Warp / Terminal / iTerm2 / Alacritty 等
+local terminalApp = "Warp"
+
+hs.hotkey.bind(hyper, "1", function()
+    local frontApp = hs.application.frontmostApplication()
+
+    if frontApp:name() == "IntelliJ IDEA" then
+        -- 触发插件快捷键，复制路径到剪贴板
+        hs.eventtap.keyStroke({"ctrl", "alt", "cmd"}, "c")
+
+        hs.timer.doAfter(0.15, function()
+            local contextPath = hs.pasteboard.getContents()
+
+            if contextPath and string.sub(contextPath, 1, 1) == "@" then
+                -- 切换到终端
+                hs.application.launchOrFocus(terminalApp)
+
+                hs.timer.doAfter(0.2, function()
+                    hs.eventtap.keyStrokes(contextPath .. " ")
+                end)
+            else
+                hs.alert.show("未能在剪贴板中获取有效路径，请重试！")
+            end
+        end)
+    else
+        hs.alert.show("请在 IntelliJ IDEA 中使用此快捷键！")
+    end
+end)
+```
+
+3. 将 `terminalApp` 修改为你使用的终端（`Warp`、`Terminal`、`iTerm2`、`Alacritty` 等）
+4. 在 Hammerspoon 菜单栏点击 **Reload Config**
+5. 在 IDEA 中按 `Ctrl+Option+Cmd+1`，路径会自动出现在终端中
+
+> 如果你的 IDEA 窗口标题不叫 "IntelliJ IDEA"，可在 Hammerspoon 控制台输入 `hs.application.frontmostApplication():name()` 查看实际名称并修改。
+
 ## 开发
 
 ```bash
