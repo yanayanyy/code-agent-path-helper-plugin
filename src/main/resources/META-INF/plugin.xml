@@ -3,17 +3,33 @@
     <id>com.github.yanayanyy.codeagentpathhelperplugin</id>
     <name>code-agent-path-helper-plugin</name>
     <vendor>yanayanyy</vendor>
+
     <description><![CDATA[
-        <p><b>code-agent-path-helper-plugin</b> is a repository that provides a pure template to make it easier to create a new plugin project.</p>
-        <p>The main goal of this template is to speed up the setup phase of plugin development for both new and experienced developers by preconfiguring the project scaffold and CI, linking to the proper documentation pages, and keeping everything organized.</p>
+        <p>一个专为 AI 编程助手（如 Claude Code、Cursor）设计的轻量级辅助插件。</p>
+        <p><b>核心功能：</b>在编辑器右键菜单或通过快捷键，一键提取当前文件的相对路径和行号，并自动拼接为 <b>@相对路径:行号</b> 格式（例如 <code>@src/main/kotlin/Main.kt:12</code>）复制到剪贴板。</p>
+        <p>完美契合各种 AI 智能体的上下文引用规范，告别手动翻找和拼接路径的烦恼，让 AI 更快、更准地定位你的代码！</p>
     ]]></description>
 
+    <!-- 基础平台依赖，必须保留 -->
     <depends>com.intellij.modules.platform</depends>
 
-    <resource-bundle>messages.MyBundle</resource-bundle>
-
     <extensions defaultExtensionNs="com.intellij">
-        <toolWindow factoryClass="com.github.yanayanyy.codeagentpathhelperplugin.toolWindow.MyToolWindowFactory" id="MyToolWindow"/>
-        <postStartupActivity implementation="com.github.yanayanyy.codeagentpathhelperplugin.startup.MyProjectActivity" />
+        <projectService serviceImplementation="com.yanayanyy.pathhelper.settings.PathHelperSettings"/>
+        <projectConfigurable parentId="tools" instance="com.yanayanyy.pathhelper.settings.PathHelperConfigurable"
+                             id="PathHelperConfigurable" displayName="Path Helper"/>
     </extensions>
+
+    <!-- 你的核心功能 -->
+    <actions>
+        <action id="CodeAgentPathHelper.CopyPath"
+                class="com.yanayanyy.pathhelper.actions.CopyAgentPathAction"
+                text="Copy Path for AI Agent"
+                description="一键复制格式为 @相对路径:行号 的当前代码位置">
+
+            <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="$Copy"/>
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="before" relative-to-action="ProjectViewEditSource"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl alt P"/>
+            <keyboard-shortcut keymap="Mac OS X" first-keystroke="shift meta alt P"/>
+        </action>
+    </actions>
 </idea-plugin>

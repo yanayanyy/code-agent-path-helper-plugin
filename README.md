@@ -1,45 +1,37 @@
-# code-agent-path-helper-plugin
+# Code Agent Path Helper
 
 ![Build](https://github.com/yanayanyy/code-agent-path-helper-plugin/workflows/Build/badge.svg)
-[![Version](https://img.shields.io/jetbrains/plugin/v/MARKETPLACE_ID.svg)](https://plugins.jetbrains.com/plugin/MARKETPLACE_ID)
-[![Downloads](https://img.shields.io/jetbrains/plugin/d/MARKETPLACE_ID.svg)](https://plugins.jetbrains.com/plugin/MARKETPLACE_ID)
 
-## Template ToDo list
-- [x] Create a new [IntelliJ Platform Plugin Template][template] project.
-- [ ] Get familiar with the [template documentation][template].
-- [ ] Adjust the [group](./gradle.properties), as well as the [id](./src/main/resources/META-INF/plugin.xml), [name](./src/main/resources/META-INF/plugin.xml), and [sources package](./src/main/kotlin).
-- [ ] Adjust the plugin [description](./src/main/resources/META-INF/plugin.xml) (see [Tips][docs:plugin-description]) and this README to describe what your plugin does.
-- [ ] Review the [Legal Agreements](https://plugins.jetbrains.com/docs/marketplace/legal-agreements.html?from=IJPluginTemplate).
-- [ ] [Publish a plugin manually](https://plugins.jetbrains.com/docs/intellij/publishing-plugin.html?from=IJPluginTemplate) for the first time.
-- [ ] Set the `MARKETPLACE_ID` in the above README badges. You can obtain it once the plugin is published to JetBrains Marketplace.
-- [ ] Set the [Plugin Signing](https://plugins.jetbrains.com/docs/intellij/plugin-signing.html?from=IJPluginTemplate) related [secrets](https://github.com/JetBrains/intellij-platform-plugin-template#environment-variables).
-- [ ] Set the [Deployment Token](https://plugins.jetbrains.com/docs/marketplace/plugin-upload.html?from=IJPluginTemplate).
-- [ ] Click the <kbd>Watch</kbd> button on the top of the [IntelliJ Platform Plugin Template][template] to be notified about releases containing new features and fixes.
+一个 JetBrains IDE 插件，为 AI 编程助手（Claude Code、Cursor、Copilot 等）一键复制代码位置引用。
 
-This Fancy IntelliJ Platform Plugin is going to be your implementation of the brilliant ideas that you have.
+## 功能
 
-## Installation
+在编辑器或项目文件树中右键，选择 **Copy Path for AI Agent**，自动将当前代码位置复制到剪贴板：
 
-- Using the IDE built-in plugin system:
+| 场景 | 输出格式 |
+|------|----------|
+| 文件树右键 | `@src/main/kotlin/Main.kt` |
+| 编辑器内光标定位 | `@src/main/kotlin/Main.kt#L42` |
+| 编辑器内选中多行 | `@src/main/kotlin/Main.kt#L10-L20` |
 
-  <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>Marketplace</kbd> > <kbd>Search for "code-agent-path-helper-plugin"</kbd> >
-  <kbd>Install</kbd>
+### 可配置路径基准
 
-- Using JetBrains Marketplace:
+在 **Settings > Tools > Path Helper** 中设置自定义基准目录，相对路径将基于该目录计算。留空则默认使用项目根目录。支持手动输入或点击浏览按钮选择文件夹。
 
-  Go to [JetBrains Marketplace](https://plugins.jetbrains.com/plugin/MARKETPLACE_ID) and install it by clicking the <kbd>Install to ...</kbd> button in case your IDE is running.
+## 快捷键
 
-  You can also download the [latest release](https://plugins.jetbrains.com/plugin/MARKETPLACE_ID/versions) from JetBrains Marketplace and install it manually using
-  <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>
+- Windows/Linux: `Shift + Ctrl + Alt + P`
+- macOS: `Shift + Cmd + Option + P`
 
-- Manually:
+## 安装
 
-  Download the [latest release](https://github.com/yanayanyy/code-agent-path-helper-plugin/releases/latest) and install it manually using
-  <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>
+从 [GitHub Releases](https://github.com/yanayanyy/code-agent-path-helper-plugin/releases/latest) 下载最新版本，在 IDE 中：
 
+<kbd>Settings</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>
 
----
-Plugin based on the [IntelliJ Platform Plugin Template][template].
+## 开发
 
-[template]: https://github.com/JetBrains/intellij-platform-plugin-template
-[docs:plugin-description]: https://plugins.jetbrains.com/docs/intellij/plugin-user-experience.html#plugin-description-and-presentation
+```bash
+./gradlew runIde        # 启动沙箱 IDE 调试
+./gradlew buildPlugin   # 构建插件
+```
