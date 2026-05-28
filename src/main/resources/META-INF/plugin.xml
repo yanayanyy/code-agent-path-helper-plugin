@@ -15,7 +15,8 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <projectService serviceImplementation="com.yanayanyy.pathhelper.settings.PathHelperSettings"/>
-        <projectConfigurable parentId="tools" instance="com.yanayanyy.pathhelper.settings.PathHelperConfigurable"
+        <projectConfigurable parentId="tools"
+                             provider="com.yanayanyy.pathhelper.settings.PathHelperConfigurable$Provider"
                              id="PathHelperConfigurable" displayName="Path Helper"/>
     </extensions>
 
@@ -28,8 +29,8 @@
 
             <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="$Copy"/>
             <add-to-group group-id="ProjectViewPopupMenu" anchor="before" relative-to-action="ProjectViewEditSource"/>
-            <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl alt P"/>
-            <keyboard-shortcut keymap="Mac OS X" first-keystroke="shift meta alt P"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl alt C"/>
+            <keyboard-shortcut keymap="Mac OS X" first-keystroke="ctrl alt meta C"/>
         </action>
     </actions>
 </idea-plugin>

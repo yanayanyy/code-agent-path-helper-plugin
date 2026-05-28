@@ -1,23 +1,18 @@
 package com.yanayanyy.pathhelper.settings
 
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory
+import com.intellij.openapi.options.ConfigurableProvider
 import com.intellij.openapi.options.SearchableConfigurable
 import com.intellij.openapi.project.Project
-import com.intellij.openapi.project.ProjectManager
 import com.intellij.openapi.ui.TextFieldWithBrowseButton
 import com.intellij.ui.components.JBLabel
-import com.intellij.ui.components.JBPanel
 import com.intellij.util.ui.JBUI
-import java.awt.BorderLayout
 import java.awt.GridBagConstraints
 import java.awt.GridBagLayout
 import javax.swing.JComponent
 import javax.swing.JPanel
 
-class PathHelperConfigurable : SearchableConfigurable {
-
-    private val project: Project
-        get() = ProjectManager.getInstance().openProjects.first()
+class PathHelperConfigurable(private val project: Project) : SearchableConfigurable {
 
     private val customPathField = TextFieldWithBrowseButton()
 
@@ -61,5 +56,10 @@ class PathHelperConfigurable : SearchableConfigurable {
     override fun reset() {
         val settings = project.getService(PathHelperSettings::class.java)
         customPathField.text = settings.customPath
+    }
+
+    class Provider(private val project: Project) : ConfigurableProvider() {
+        override fun createConfigurable() = PathHelperConfigurable(project)
+        override fun canCreateConfigurable() = !project.isDefault
     }
 }
