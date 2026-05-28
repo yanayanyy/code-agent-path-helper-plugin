@@ -29,8 +29,7 @@
 
             <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="$Copy"/>
             <add-to-group group-id="ProjectViewPopupMenu" anchor="before" relative-to-action="ProjectViewEditSource"/>
-            <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl alt C"/>
-            <keyboard-shortcut keymap="Mac OS X" first-keystroke="ctrl alt meta C"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt meta C"/>
         </action>
     </actions>
 </idea-plugin>

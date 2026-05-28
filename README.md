@@ -20,7 +20,6 @@
 
 ## 快捷键
 
-- Windows/Linux: `Shift + Ctrl + Alt + C`
 - macOS: `Ctrl + Option + Cmd + C`
 
 ## 安装
