@@ -1,10 +1,12 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
     <id>com.github.yanayanyy.codeagentpathhelperplugin</id>
-    <name>code-agent-path-helper-plugin</name>
+    <name>Code Agent Path Helper</name>
+    <version>1.0.0</version>
     <vendor>yanayanyy</vendor>
 
     <description><![CDATA[
+        <p>Code Agent Path Helper — one-click copy of file path references in <code>@relative/path:line</code> format for AI coding agents (Claude Code, Cursor).</p>
         <p>一个专为 AI 编程助手（如 Claude Code、Cursor）设计的轻量级辅助插件。</p>
         <p><b>核心功能：</b>在编辑器右键菜单或通过快捷键，一键提取当前文件的相对路径和行号，并自动拼接为 <b>@相对路径:行号</b> 格式（例如 <code>@src/main/kotlin/Main.kt:12</code>）复制到剪贴板。</p>
         <p>完美契合各种 AI 智能体的上下文引用规范，告别手动翻找和拼接路径的烦恼，让 AI 更快、更准地定位你的代码！</p>
