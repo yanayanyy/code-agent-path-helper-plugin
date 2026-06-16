@@ -12,3 +12,11 @@
 - 行号支持：单行 `#L42`、多行选区 `#L10-L20`
 - 快捷键 `Ctrl + Option + Cmd + C`
 - Settings > Tools > Path Helper 配置界面
+
+### Added (English)
+- One-click copy of code location reference (`@relative/path:line` or absolute path) for AI coding agents (Claude Code, Cursor, Copilot)
+- Relative / absolute path dual mode with an enable toggle and a configurable base directory
+- Editor right-click menu and project view right-click menu entries
+- Line info: single line `#L42`, multi-line selection `#L10-L20`
+- Shortcut `Ctrl + Option + Cmd + C`
+- Settings UI at Settings > Tools > Path Helper

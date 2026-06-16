@@ -19,3 +19,14 @@ dependencies {
         testFramework(TestFrameworkType.Platform)
     }
 }
+
+tasks {
+    // 发布到 JetBrains Marketplace 的上传令牌配置
+    // 令牌放 ~/.gradle/gradle.properties 的 publishToken=perm:xxxx，或用环境变量 PUBLISH_TOKEN
+    // 绝不要把令牌提交进 git
+    publishPlugin {
+        token = providers.gradleProperty("publishToken")
+            .orElse(providers.environmentVariable("PUBLISH_TOKEN"))
+        // 默认 default（稳定）channel；版本号带 -beta/-eap 后缀会自动走对应 channel
+    }
+}

@@ -12,6 +12,7 @@
         <p>完美契合各种 AI 智能体的上下文引用规范，告别手动翻找和拼接路径的烦恼，让 AI 更快、更准地定位你的代码！</p>
     ]]></description>
 
+    <!-- change-notes 由 CHANGELOG.md 经 patchPluginXml 自动注入，无需在此手写 -->
     <!-- 基础平台依赖，必须保留 -->
     <depends>com.intellij.modules.platform</depends>
 
