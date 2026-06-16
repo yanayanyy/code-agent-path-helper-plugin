@@ -67,20 +67,25 @@ local hyper = {"ctrl", "alt", "cmd"}
 local terminalApp = "Zed"
 
 hs.hotkey.bind(hyper, "1", function()
+    -- 1. 获取当前激活的应用程序
     local frontApp = hs.application.frontmostApplication()
 
+    -- 确保当前正在 IDEA 里操作
     if frontApp:name() == "IntelliJ IDEA" then
-        -- 触发插件快捷键（Ctrl+Alt+Cmd+C），复制路径到剪贴板
-        hs.eventtap.keyStroke({"ctrl", "alt", "cmd"}, "c")
+        -- 2. 模拟按下 IDEA 插件的快捷键 (Ctrl + Alt + Cmd + C)
+        --    模拟组合不含 shift 且按键是 C，与触发键 Hyper+1 不同，不会触发循环
+        hs.eventtap.keyStroke({ "ctrl", "alt", "cmd" }, "c")
 
+        -- 3. 等待 0.15 秒，给 IDEA 插件写入剪贴板留出时间
         hs.timer.doAfter(0.15, function()
             local contextPath = hs.pasteboard.getContents()
 
-            -- 校验：相对引用（@ 开头）或绝对路径（/ 开头）均接受
+            -- 4. 校验：确保剪贴板里是有效路径（相对引用 @ 开头 或 绝对路径 / 开头）
             if contextPath and (string.sub(contextPath, 1, 1) == "@" or string.sub(contextPath, 1, 1) == "/") then
-                -- 切换到终端
+                -- 5. 激活终端
                 hs.application.launchOrFocus(terminalApp)
 
+                -- 6. 等待 0.2 秒终端切到前台后，把路径当作打字敲进去，并追加一个空格
                 hs.timer.doAfter(0.2, function()
                     hs.eventtap.keyStrokes(contextPath .. " ")
                 end)
