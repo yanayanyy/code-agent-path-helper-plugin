@@ -20,20 +20,22 @@ class CopyAgentPathAction : AnAction() {
     override fun actionPerformed(e: AnActionEvent) {
         val project = e.project ?: return
         val virtualFile = e.getData(CommonDataKeys.VIRTUAL_FILE) ?: return
-        val customPath = project.service<PathHelperSettings>().customPath
+        val settings = project.service<PathHelperSettings>()
+        val customPath = settings.customPath
 
-        val baseDir = if (customPath.isNotBlank()) {
+        // 未启用或未配置 customPath → 一律绝对路径（不加 @）
+        val baseDir = if (settings.enabled && customPath.isNotBlank()) {
             project.guessProjectDir()?.findFileByRelativePath(customPath)
                 ?: VfsUtil.findFile(File(customPath).toPath(), true)
         } else {
-            project.guessProjectDir()
+            null
         }
 
-        val relativePath = if (baseDir != null) {
-            VfsUtilCore.getRelativePath(virtualFile, baseDir, '/') ?: virtualFile.path
-        } else {
-            virtualFile.path
-        }
+        // 计算相对路径；文件不在 baseDir 子树下时为 null（此时回退为绝对路径）
+        val relativePath = baseDir?.let { VfsUtilCore.getRelativePath(virtualFile, it, '/') }
+        val finalPath = relativePath ?: virtualFile.path
+        // 相对路径加 @ 前缀，绝对路径不加
+        val prefix = if (relativePath != null) "@" else ""
 
         val editor = e.getData(CommonDataKeys.EDITOR)
         val result = if (editor != null) {
@@ -45,9 +47,9 @@ class CopyAgentPathAction : AnAction() {
             } else {
                 "#L${editor.caretModel.logicalPosition.line + 1}"
             }
-            "@$relativePath$lineSuffix"
+            "$prefix$finalPath$lineSuffix"
         } else {
-            "@$relativePath"
+            "$prefix$finalPath"
         }
 
         CopyPasteManager.getInstance().setContents(StringSelection(result))

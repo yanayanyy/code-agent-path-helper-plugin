@@ -13,6 +13,7 @@ class PathHelperSettings : PersistentStateComponent<PathHelperSettings.State> {
 
     private var state = State()
 
+    val enabled: Boolean get() = state.enabled
     val customPath: String get() = state.customPath
 
     override fun getState() = state
@@ -22,6 +23,7 @@ class PathHelperSettings : PersistentStateComponent<PathHelperSettings.State> {
     }
 
     class State {
+        var enabled: Boolean = true
         var customPath: String = ""
     }
 }
